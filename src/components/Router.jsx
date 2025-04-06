@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Hero from './custom/Hero'
 import CreateTrip from '../create trip/CreateTrip'
-import 
+import ViewTrip from '@/viewTrip/[tripId]/ViewTrip'
 
 
 const AppRouter = () => {
@@ -11,7 +11,7 @@ const AppRouter = () => {
         <Routes>
             <Route path='/' element={<Hero />} />
             <Route path='/createtrip' element={<CreateTrip />} />
-            <Route path='/viewtrip' element={<ViewTrip />} />
+            <Route path='/viewtrip/:tripId' element={<ViewTrip />} />
         </Routes>
     </Router>
   )
