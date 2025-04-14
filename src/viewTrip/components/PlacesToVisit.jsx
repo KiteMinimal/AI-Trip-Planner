@@ -3,6 +3,18 @@ import React, { useEffect, useState } from "react";
 const PlacesToVisit = ({ trip }) => {
   const [itinenary, setItinenary] = useState("");
 
+  const handleNavigate = (place) => {
+    return () => {
+      window.open(
+        "https://www.google.com/maps/search/?api=1&query=" +
+          place?.PlaceName +
+          "," +
+          place?.Location,
+        "_blank"
+      );
+    };
+  };
+
   useEffect(() => {
     if (trip && trip.tripData) {
       const dynamicKey = Object.keys(trip.tripData)[0]; // dynamically get the key like 'NetherlandsGroupTrip'
@@ -25,7 +37,7 @@ const PlacesToVisit = ({ trip }) => {
                 {details.Plan.map((place, index) => (
                   <div
                     key={index}
-                    className="flex border p-2 m-3 rounded shadow hover:scale-105 transition-all cursor-pointer"
+                    className="flex border p-2 m-3 rounded shadow cursor-pointer"
                   >
                     <img
                       src="/lakeView.avif" /* {place?.ImageUrl} */
@@ -41,11 +53,20 @@ const PlacesToVisit = ({ trip }) => {
                         </span>
                       </h2>
                       <h2 className="font-semibold font-mono">
-                        Place : <spam className="font-normal">{place.PlaceName}</spam> :{" "}
+                        Place :{" "}
+                        <span className="font-normal">{place.PlaceName}</span> :{" "}
                         <span className=" font-transform font-normal text-slate-400">
                           {place.PlaceDetails}
                         </span>
                       </h2>
+
+                      <button
+                        onClick={handleNavigate(place)}
+                        className="bg-amber-950 text-white p-2 rounded-md hover:bg-amber-800 transition-all hover:scale-105"
+                      >
+                        {" "}
+                        View on Map
+                      </button>
                     </div>
                   </div>
                 ))}
