@@ -7,7 +7,7 @@ const InfoSection = ({ trip }) => {
   return (
     <div>
       <img
-        src="/picaso.jpg"
+        src="/mainView.avif"
         className="h-[340px] w-full object-cover rounded-xl"
         alt=""
       />

@@ -37,7 +37,7 @@ const Hotels = ({ trip }) => {
               className="border p-4 rounded shadow hover:scale-105 transition-all cursor-pointer"
             >
               <img
-                src={item?.HotelImageUrl || "/picaso.jpg"}
+                src="/lakeView.avif" /* {item?.HotelImageUrl} */
                 alt={item?.HotelName}
                 className="w-full h-48 object-cover rounded mb-3"
               />

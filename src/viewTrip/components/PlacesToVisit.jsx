@@ -1,34 +1,55 @@
 import React, { useEffect, useState } from "react";
 
 const PlacesToVisit = ({ trip }) => {
-  const [itinary, setItinary] = useState([]);
-  const [tripKey, setTripKey] = useState("");
+  const [itinenary, setItinenary] = useState("");
 
   useEffect(() => {
     if (trip && trip.tripData) {
       const dynamicKey = Object.keys(trip.tripData)[0]; // dynamically get the key like 'NetherlandsGroupTrip'
-      setTripKey(dynamicKey);
-      const hotelList = trip.tripData[dynamicKey]?.Hotels || [];
-      setItinary(hotelList);
+      const itinenaryList = trip.tripData[dynamicKey]?.Itinerary || [];
+      setItinenary(itinenaryList);
     }
   }, [trip]);
 
   return (
     <div className="mt-10">
-      <h2 className="font-bold text-lg">
-        Places To Visit {tripKey && `- ${tripKey.replace(/([A-Z])/g, " $1")}`}
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
-        {itinary.tripData?.itinerary?.map((item, index) => {
+      <h2 className="font-bold text-lg">Places To Visit</h2>
+      <div className="">
+        {Object.entries(itinenary).map(([day, details]) => {
           return (
-            <div
-              key={index}
-              className="border p-4 rounded shadow hover:scale-105 transition-all cursor-pointer"
-            >
-              <h2 className="text-lg font-semibold">{item}</h2>
-              <p className="text-sm text-gray-600">{item?.description}</p>
-              <p className="text-sm mt-1 font-medium">Price: {item?.price}</p>
-              <p className="text-sm">Rating: ⭐ {item?.rating}</p>
+            <div key={day} className="my-10 border p-4 rounded shadow">
+              <h2 className="text-xl font-bold text-amber-950">
+                {day}: {details.Theme}
+              </h2>
+              <div className="grid md:grid-cols-2  mt-4">
+                {details.Plan.map((place, index) => (
+                  <div
+                    key={index}
+                    className="flex border p-2 m-3 rounded shadow hover:scale-105 transition-all cursor-pointer"
+                  >
+                    <img
+                      src="/lakeView.avif" /* {place?.ImageUrl} */
+                      alt={place?.PlaceName}
+                      className="w-32 h-32 object-cover rounded mb-3"
+                    />
+                    <div className="flex flex-col  ml-4 gap-3">
+                      <h2 className="font-semibold font-mono">
+                        Visiting Time :
+                        <span className="font-serif font-normal">
+                          {" "}
+                          {place?.BestTimeToVisit}
+                        </span>
+                      </h2>
+                      <h2 className="font-semibold font-mono">
+                        Place : <spam className="font-normal">{place.PlaceName}</spam> :{" "}
+                        <span className=" font-transform font-normal text-slate-400">
+                          {place.PlaceDetails}
+                        </span>
+                      </h2>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           );
         })}
