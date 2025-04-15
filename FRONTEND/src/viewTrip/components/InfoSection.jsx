@@ -1,28 +1,42 @@
 import { Button } from "@/components/ui/button";
-import { getPlacesDetails } from "@/services/GoogleAPI";
-import React, { use, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosSend } from "react-icons/io";
-
+import axios from "axios";
 
 const InfoSection = ({ trip }) => {
+  const [photoUrl, setPhotoUrl] = useState("/mainView.avif");
 
   useEffect(() => {
-    trip && getPlacesPhoto()
-  }, [trip])
-
-  const getPlacesPhoto = async () => {
-    const data = {
-      textQuery: trip?.userSelection?.location?.label,
-      fields: ["places.id", "places.photos", "places.displayName"],
+    if (trip) {
+      fetchPhotoFromBackend();
     }
-    const result = await getPlacesDetails().then(res => console.log(res.data))
-  }
+  }, [trip]);
+
+  const fetchPhotoFromBackend = async () => {
+    try {
+      const res = await axios.post("http://localhost:3000/api/search-places", {
+        textQuery: trip?.userSelection?.location?.label,
+      });
+
+      
+      const photoRef = res.data.places?.[0]?.photos?.[0]?.name;
+      
+      if (photoRef) {
+        const url = `https://places.googleapis.com/v1/${photoRef}/media?maxWidthPx=600&key=${import.meta.env.VITE_GOOGLE_API_KEY}`;
+        console.log(url);
+        setPhotoUrl(url);
+      }
+    } catch (err) {
+      console.error("Error fetching photo:", err.message);
+    }
+  };
+
   return (
     <div>
       <img
-        src="/mainView.avif"
+        src={photoUrl}
         className="h-[340px] w-full object-cover rounded-xl"
-        alt=""
+        alt="Trip location"
       />
 
       <div className="my-5 flex flex-col gap-2">
@@ -43,7 +57,9 @@ const InfoSection = ({ trip }) => {
             🧳 No of traveller : {trip?.userSelection?.travelList}
           </h2>
         </div>
-        <Button><IoIosSend /></Button>
+        <Button>
+          <IoIosSend />
+        </Button>
       </div>
     </div>
   );
