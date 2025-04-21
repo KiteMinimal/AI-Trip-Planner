@@ -18,12 +18,16 @@ const InfoSection = ({ trip }) => {
         textQuery: trip?.userSelection?.location?.label,
       });
 
-      
       const photoRef = res.data.places?.[0]?.photos?.[0]?.name;
-      
+      console.log(photoRef)
+
       if (photoRef) {
-        const url = `https://places.googleapis.com/v1/${photoRef}/media?maxWidthPx=600&key=${import.meta.env.VITE_GOOGLE_API_KEY}`;
+        const url = `https://places.googleapis.com/v1/${photoRef}/media?maxWidthPx=600&key=${
+          import.meta.env.VITE_GOOGLE_PLACE_API_KEY
+        }`;
+        
         console.log(url);
+        
         setPhotoUrl(url);
       }
     } catch (err) {

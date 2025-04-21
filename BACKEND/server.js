@@ -30,6 +30,7 @@ app.post('/api/search-places', async (req, res) => {
     );
 
     res.json(response.data);
+
   } catch (error) {
     console.error('Google API Error:', error.message);
     res.status(500).json({ error: 'Failed to fetch places' });
